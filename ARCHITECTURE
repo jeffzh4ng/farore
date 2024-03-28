@@ -1,0 +1,49 @@
+# Architecture
+The document assumes familiarity with programming languages and compiler
+construction. Feel free to take a look at a software 1.0 compiler,
+[din](https://github.com/jeffzh4ng/din) for reference.
+
+## Models
+If compilers and chips bridge the semantic chasm between high level language and
+and electrons, then software 2.0 *models* bridge the one between rules based
+programming and non-linear programs.
+
+**Software 1.0**
+Rules-based programming with Turing complete languages allows humans to build
+software by explicitly encoding the rules with branches and loops. If you're
+familiar with the Church-Turing thesis, we're essentially embededding the program
+with top-down deductive logic. After development, the software program *knows* how
+to map inputs to outputs, and the interpreter (software or hardware) simulates a
+universal turing machine in order to evaluate the output given an input.
+
+input ---->| program | ----> output
+
+**Software 2.0**
+Data-based programming, on the other hand allows humans to build software by
+implicitly encoding the rules with data. If we create a function (aka neural network)
+with random coeffecients (aka weights), it's going to spit out a random output.
+
+input --------->|       |
+                | model | ----> output
+weights ------->|       |
+
+The way we *teach* models the correct output is with 1. a measure (aka loss function)
+and 2. a way of minimizing that measure (aka gradient descent).
+
+input --------->|       |
+                | model | ----> output ----> loss
+weights ------->|       |                      |
+  ^                                            |
+  |                                            |
+  ----------------------------------------------
+                  gradient descent
+
+The primary purpose of a machine learning framework is to perform gradient
+descent automatically, and this is what we'll be implementing with `nayru`.
+After teaching the model (training), it too, now *knows* how to map inputs
+to outputs. In production, we don't need to calculate loss or perform any
+gradient descent, and we can embded the weights with the model binary. Then,
+the model is treated like any other program, which can be interpreted with
+any universal turing machine.
+
+input ---->| program | ----> output
